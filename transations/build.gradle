@@ -44,6 +44,6 @@ publish {
     groupId = 'com.dimasolovyev'
     artifactId = 'transations'
     publishVersion = '0.1.0'
-    desc = 'Support transitions for transactions between fragments.'
+    desc = 'Support transitions for fragment transactions. SDK 15+'
     website = 'https://github.com/dimasolovyev/transations'
 }
