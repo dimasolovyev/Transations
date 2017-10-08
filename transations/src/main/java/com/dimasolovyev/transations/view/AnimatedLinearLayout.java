@@ -1,6 +1,7 @@
 package com.dimasolovyev.transations.view;
 
 import android.content.Context;
+import android.support.transition.Transition;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
@@ -66,5 +67,29 @@ public class AnimatedLinearLayout extends LinearLayout implements AnimatedLayout
 
     public float getPopExitAnimationValue() {
         return mDelegate.getAnimationValue(AnimatedLayoutDelegate.TransationType.POPEXIT);
+    }
+
+    public void setEnterTransition(Transition transition) {
+        mDelegate.setTransition(AnimatedLayoutDelegate.TransationType.ENTER, transition);
+    }
+
+    public void setExitTransition(Transition transition) {
+        mDelegate.setTransition(AnimatedLayoutDelegate.TransationType.ENTER, transition);
+    }
+
+    public void setReEnterTransition(Transition transition) {
+        mDelegate.setTransition(AnimatedLayoutDelegate.TransationType.POPENTER, transition);
+    }
+
+    public void setReturnTransition(Transition transition) {
+        mDelegate.setTransition(AnimatedLayoutDelegate.TransationType.POPEXIT, transition);
+    }
+
+    public void setAllowReturnTransitionOverlap(boolean allow) {
+        mDelegate.setAllowTransationOverlap(AnimatedLayoutDelegate.TransationType.POPENTER, allow);
+    }
+
+    public void setAllowEnterTransitionOverlap(boolean allow) {
+        mDelegate.setAllowTransationOverlap(AnimatedLayoutDelegate.TransationType.ENTER, allow);
     }
 }

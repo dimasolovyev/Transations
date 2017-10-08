@@ -5,4 +5,4 @@
     android:valueType="floatType"
     android:valueFrom="0"
     android:valueTo="1"
-    android:duration="500"/>
+    android:duration="@integer/transation_duration_exit"/>

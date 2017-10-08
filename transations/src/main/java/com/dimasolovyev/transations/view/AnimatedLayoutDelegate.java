@@ -7,6 +7,8 @@ import android.support.transition.TransitionSet;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dimasolovyev.transations.R;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,11 +58,51 @@ class AnimatedLayoutDelegate {
 
         if (transition == null) {
             transition = generateDefaultTransition(type, mSceneRoot);
+            transition.setDuration(getDefaultTransationDuration(type));
         }
 
-        transition.setDuration(500);
+        if (transation.delay >= 0) {
+            transition.setStartDelay(transation.delay);
+        }
+
         TransitionManager.beginDelayedTransition(mSceneRoot, transition);
         changeSceneManually(type);
+    }
+
+    void setTransition(TransationType type, Transition transition) {
+        Transation transation = mTransations.get(type);
+        transation.transition = transition;
+    }
+
+    void setAllowTransationOverlap(TransationType type, boolean allow) {
+        Transation transation = mTransations.get(type);
+
+        if (!allow) {
+            transation.delay = -1;
+            return;
+        }
+
+        switch (type) {
+            case ENTER:
+                transation.delay = mSceneRoot.getResources().getInteger(R.integer.transation_duration_exit);
+            case POPENTER:
+                transation.delay = mSceneRoot.getResources().getInteger(R.integer.transation_duration_popexit);
+        }
+    }
+
+    private int getDefaultTransationDuration(TransationType type) {
+        switch (type) {
+            case ENTER:
+                return mSceneRoot.getResources().getInteger(R.integer.transation_duration_enter);
+            case EXIT:
+                return mSceneRoot.getResources().getInteger(R.integer.transation_duration_exit);
+            case POPENTER:
+                return mSceneRoot.getResources().getInteger(R.integer.transation_duration_popenter);
+            case POPEXIT:
+                return mSceneRoot.getResources().getInteger(R.integer.transation_duration_popexit);
+        }
+
+        return 300;
     }
 
     private Transition generateDefaultTransition(TransationType type, ViewGroup viewGroup) {
@@ -133,5 +175,6 @@ class AnimatedLayoutDelegate {
         private Transition transition;
         private boolean started = false;
         private float value = 0;
+        private long delay = -1;
     }
 }

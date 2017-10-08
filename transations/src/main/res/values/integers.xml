@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="transation_duration_enter">500</integer>
+    <integer name="transation_duration_exit">500</integer>
+    <integer name="transation_duration_popenter">500</integer>
+    <integer name="transation_duration_popexit">500</integer>
+</resources>
