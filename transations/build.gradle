@@ -44,7 +44,7 @@ publish {
     userOrg = 'dimasolovyev'
     groupId = 'com.github.dimasolovyev'
     artifactId = 'transations'
-    publishVersion = '0.1.0'
+    publishVersion = '0.2.0'
     desc = 'Support transitions for fragment transactions. SDK 15+'
     website = 'https://github.com/dimasolovyev/transations'
 }
