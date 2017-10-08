@@ -57,8 +57,9 @@ class AnimatedLayoutDelegate {
         Transition transition = transation.transition;
 
         if (transition == null) {
+            int childCount = getChildCount(mSceneRoot, 0);
             transition = generateDefaultTransition(type, mSceneRoot);
-            transition.setDuration(getDefaultTransationDuration(type));
+            transition.setDuration(getDefaultTransationDuration(type, childCount));
         }
 
         if (transation.delay >= 0) {
@@ -90,19 +91,45 @@ class AnimatedLayoutDelegate {
         }
     }
 
-    private int getDefaultTransationDuration(TransationType type) {
+    private int getDefaultTransationDuration(TransationType type, int childCount) {
+        int transitionDuration = 300;
+
         switch (type) {
             case ENTER:
-                return mSceneRoot.getResources().getInteger(R.integer.transation_duration_enter);
+                transitionDuration = mSceneRoot.getResources().getInteger(R.integer.transation_duration_enter);
+                break;
             case EXIT:
-                return mSceneRoot.getResources().getInteger(R.integer.transation_duration_exit);
+                childCount = 1;
+                transitionDuration = mSceneRoot.getResources().getInteger(R.integer.transation_duration_exit);
+                break;
             case POPENTER:
-                return mSceneRoot.getResources().getInteger(R.integer.transation_duration_popenter);
+                transitionDuration = mSceneRoot.getResources().getInteger(R.integer.transation_duration_popenter);
+                break;
             case POPEXIT:
-                return mSceneRoot.getResources().getInteger(R.integer.transation_duration_popexit);
+                childCount = 1;
+                transitionDuration =  mSceneRoot.getResources().getInteger(R.integer.transation_duration_popexit);
+                break;
         }
 
-        return 300;
+        if (childCount > 1) {
+            transitionDuration = transitionDuration / childCount;
+        }
+
+        return transitionDuration;
+    }
+
+    private int getChildCount(ViewGroup viewGroup, int childCount) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            View view = viewGroup.getChildAt(i);
+
+            if (view instanceof ViewGroup) {
+                childCount += getChildCount((ViewGroup) view, childCount);
+            } else {
+                childCount ++;
+            }
+        }
+
+        return childCount;
     }
 
     private Transition generateDefaultTransition(TransationType type, ViewGroup viewGroup) {
